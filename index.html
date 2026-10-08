@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cloudflare Test</title>
+<style>
+ body{font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 16px}
+ pre{background:#f4f4f4;padding:12px;border-radius:8px;white-space:pre-wrap}
+ .ok{color:#0a7d32}.no{color:#b00020}
+</style>
+</head>
+<body>
+<h1>Cloudflare Test Site</h1>
+<p>Origin: GitHub Pages · โหลดเมื่อ <span id="t"></span></p>
+<h2>ผ่าน Cloudflare หรือยัง?</h2>
+<p id="status">กำลังเช็ค...</p>
+<pre id="trace"></pre>
+<script>
+document.getElementById('t').textContent = new Date().toLocaleString('th-TH');
+fetch('/cdn-cgi/trace').then(r => {
+  if (!r.ok) throw 0;
+  return r.text();
+}).then(txt => {
+  document.getElementById('status').innerHTML = '<b class="ok">✅ วิ่งผ่าน Cloudflare แล้ว</b>';
+  document.getElementById('trace').textContent = txt;
+}).catch(() => {
+  document.getElementById('status').innerHTML = '<b class="no">❌ ยังไม่ผ่าน Cloudflare (ต่อตรงเข้า GitHub)</b>';
+});
+</script>
+</body>
+</html>
